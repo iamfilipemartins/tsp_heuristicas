@@ -72,7 +72,7 @@ class NearestNeighbor():
         print("Total Time (milisec): ", round(self.readTime + (time.time() * 1000 - start_time)))
    
     def getStartPoints(self):
-        np.random.seed(1)
+        #np.random.seed(1)
         a = round(self.size*0.1)
         min = 10
         max = 1000
