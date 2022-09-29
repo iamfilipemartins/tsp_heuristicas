@@ -1,6 +1,6 @@
 
 import time
-start_time = time.time() * 1000
+execStartTime = time.time() * 1000
 
 import sys
 from utils import Utils
@@ -11,7 +11,7 @@ class NearestNeighbor():
     def __init__(self, file):
         self.file = file
         self.instance = Utils(self.file)
-        self.size = self.instance.size
+        self.size = self.instance.data['size']
         self.pointsDistances = self.instance.getPointsDistances()
         self.readTime = self.instance.readTime
 
@@ -60,7 +60,7 @@ class NearestNeighbor():
     def showExecInfo(self):
         print("\n \nInstance name: ", self.instance.name)
         print("Dimension: ", self.size)
-        print("Distance Type: ", self.instance.edgeWeightType)
+        print("Distance Type: ", self.instance.data['edgeWeightType'])
         print("\nRunning nn over 10 random tour")
 
     def showExecResults(self,distance, bestTour):
@@ -68,8 +68,8 @@ class NearestNeighbor():
         print("Points in Tour: ", len(bestTour))
         print("Best Tour by nn is: \n", bestTour)
         print("\nTime to read instance (milisec): ", round(self.readTime))
-        print("Time to run instances(milisec): ", round((time.time() * 1000) - start_time))
-        print("Total Time (milisec): ", round(self.readTime + (time.time() * 1000 - start_time)))
+        print("Time to run instances(milisec): ", round((time.time() * 1000) - execStartTime))
+        print("Total Time (milisec): ", round(self.readTime + (time.time() * 1000 - execStartTime)))
    
     def getStartPoints(self):
         #np.random.seed(1)
