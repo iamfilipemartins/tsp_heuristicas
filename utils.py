@@ -47,19 +47,19 @@ class Utils():
         return pointsDistances
 
     def getEuclidianDistances(self):
-        cost_matrix = []
+        costMatrix = []
         for i in range(self.data['size']):
             row = []
             for j in range(self.data['size']):
                 row.append(np.round(sqrt((self.data['cities'][i][1] - self.data['cities'][j][1]) ** 2 + (self.data['cities'][i][2] - self.data['cities'][j][2]) ** 2)))
-            cost_matrix.append(row)
-        return np.asarray(cost_matrix, dtype=np.float32)
+            costMatrix.append(row)
+        return np.asarray(costMatrix, dtype=np.float32)
      
     def getPseudoEuclidianDistances(self):
-        cost_matrix = []
+        costMatrix = []
         for i in range(self.data['size']):
             row = []
             for j in range(self.data['size']):
                 row.append(np.round(sqrt(((self.data['cities'][i][1] - self.data['cities'][j][1]) ** 2 + (self.data['cities'][i][2] - self.data['cities'][j][2]) ** 2) / 10.0)))
-            cost_matrix.append(row)
-        return np.asarray(cost_matrix, dtype=np.float32)
+            costMatrix.append(row)
+        return np.asarray(costMatrix, dtype=np.float32)
