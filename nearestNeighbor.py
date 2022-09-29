@@ -77,13 +77,11 @@ class NearestNeighbor():
         min = 10
         max = 1000
         if a > max:
-            list = np.random.choice(self.size, max, replace=False)
-        elif a <= min:
-            list = np.random.choice(self.size, min, replace=False)
+            return np.random.choice(self.size, max, replace=False)
+        elif a < min:
+            return np.random.choice(self.size, min, replace=False)
         else:
-            list = np.random.choice(self.size, a, replace=False)
-        return list
-
+            return np.random.choice(self.size, a, replace=False)
 
 if len(sys.argv)<2:
     print("need input file")
