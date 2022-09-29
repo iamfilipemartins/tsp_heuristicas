@@ -96,9 +96,8 @@ if sys.argv[1] == 'all':
   dir_list = os.listdir(path)
   
   for file in dir_list:
-      if ".tsp" in file:
-        t = NearestNeighbor(file)
-        t.run()	
+      t = NearestNeighbor(file)
+      t.run()	
 else:
   t = NearestNeighbor(sys.argv[1])
   t.run()	          
