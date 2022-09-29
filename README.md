@@ -1,5 +1,5 @@
 # TSP-heuristics
-Implementing various heuristics for Travelling Salesman Problem (TSP). Nearest Neighour heuristic (nn.py), 2-opt (2-opt.py) genetic algorithm(ga_tsp.py, ga_2-opt_tsp.py), Simulated Annealing (runSA.py, runSA2opt.py)).
+Implementing heuristics for Travelling Salesman Problem (TSP). Nearest Neighour heuristic (nearestNeighbor.py).
 
 ## Description 
 	data: this folder has all TSPLIB instances (e.g ch130.tsp, a280.tsp) 
@@ -11,7 +11,7 @@ Steps for running algorithms
 	$ python 'algorithm.py' 'filename'  
 
 * 'algorithm.py': nearestNeighbor.py
-* 'filename' pick any file from data folder eg. kroB100.tsp or att48.tsp
+* 'filename' pick any file from data folder eg. kroB100.tsp or att48.tsp or all to run all data folder files
 
 ### Example runs			
 	$ python nearestNeighbor.py kroB100.tsp
