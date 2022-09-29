@@ -16,3 +16,4 @@ Steps for running algorithms
 ### Example runs			
 	$ python nearestNeighbor.py kroB100.tsp
 	$ python nearestNeighbor.py att48.tsp
+	$ python nearestNeighbor.py all
