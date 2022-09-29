@@ -11,7 +11,7 @@ Steps for running algorithms
 	$ python 'algorithm.py' 'filename'  
 
 * 'algorithm.py': nearestNeighbor.py
-* 'filename' pick any file from data folder eg. kroB100.tsp or att48.tsp or all to run all data folder files
+* 'filename' pick any file from data folder eg. 'kroB100.tsp' or 'att48.tsp' or 'all' to run all data folder files
 
 ### Example runs			
 	$ python nearestNeighbor.py kroB100.tsp
