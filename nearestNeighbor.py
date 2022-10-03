@@ -1,4 +1,3 @@
-
 import time
 execStartTime = time.time() * 1000
 
@@ -14,12 +13,53 @@ class NearestNeighbor():
         self.size = self.instance.data['size']
         self.pointsDistances = self.instance.getPointsDistances()
         self.readTime = self.instance.readTime
+    
+    def showExecInfo(self):
+        print("\n")
+        print("Instance name: ", self.instance.name)
+        print("Dimension: ", self.size)
+        print("Distance Type: ", self.instance.data['edgeWeightType'])
+        print("Running nn tour over 10 random initial points")
+
+    def showExecResults(self, distance, bestTour):
+        print("\n")
+        print("Tour Distance: ", distance)
+        print("Points in Tour: ", len(bestTour))
+        print("Best Tour by nn is: ", bestTour)
+        print("\n")
+        print("Time to read instance (milisec): ", round(self.readTime))
+        print("Time to run instances(milisec): ", round((time.time() * 1000) - execStartTime))
+        print("Total Time (milisec): ", round(self.readTime + (time.time() * 1000 - execStartTime)))
+
+    def getStartPoints(self):
+        a = round(self.size*0.1)
+        min = 10
+        max = 1000
+        if a > max:
+            return np.random.choice(self.size, max, replace=False)
+        elif a < min:
+            return np.random.choice(self.size, min, replace=False)
+        else:
+            return np.random.choice(self.size, a, replace=False)
 
     def getDistances(self):
         distances = self.pointsDistances.copy()
         for i in range(self.size):
             distances[i][i] = np.inf
         return distances
+
+    def getBestTourResult(self, tours, distancesByTour):
+        minDistanceIndex = np.argmin(distancesByTour)
+        self.showExecResults(distancesByTour[minDistanceIndex], tours[minDistanceIndex])
+
+    def getDistanceFromTour(self, tour):
+        distance = 0
+        for i, t in enumerate(tour):
+            try:
+                distance+=self.pointsDistances[t][tour[i+1]]
+            except IndexError:
+                distance+=self.pointsDistances[t][tour[0]]
+        return distance
 
     def nearestNeighborAlgorithm(self, startPoint):
         distances = self.getDistances()
@@ -39,61 +79,20 @@ class NearestNeighbor():
         startPoints = self.getStartPoints()
         for point in startPoints:
             tour = self.nearestNeighborAlgorithm(point)
-            dist = self.getDistanceFromTour(tour)
+            distance = self.getDistanceFromTour(tour)
             tours.append(tour)
-            distancesByTour.append(dist)
+            distancesByTour.append(distance)
         self.getBestTourResult(tours, distancesByTour) 
-
-    def getBestTourResult(self, tours, distancesByTour):
-        minDistanceIndex = np.argmin(distancesByTour)
-        self.showExecResults(distancesByTour[minDistanceIndex], tours[minDistanceIndex])
-
-    def getDistanceFromTour(self, tour):
-        dist = 0
-        for i,t in enumerate(tour):
-            try:
-                dist+=self.pointsDistances[t][tour[i+1]]
-            except IndexError:
-                dist+=self.pointsDistances[t][tour[0]]
-        return dist
-
-    def showExecInfo(self):
-        print("\n \nInstance name: ", self.instance.name)
-        print("Dimension: ", self.size)
-        print("Distance Type: ", self.instance.data['edgeWeightType'])
-        print("\nRunning nn over 10 random tour")
-
-    def showExecResults(self,distance, bestTour):
-        print("\nTour Distance: ", distance)
-        print("Points in Tour: ", len(bestTour))
-        print("Best Tour by nn is: \n", bestTour)
-        print("\nTime to read instance (milisec): ", round(self.readTime))
-        print("Time to run instances(milisec): ", round((time.time() * 1000) - execStartTime))
-        print("Total Time (milisec): ", round(self.readTime + (time.time() * 1000 - execStartTime)))
-   
-    def getStartPoints(self):
-        #np.random.seed(1)
-        a = round(self.size*0.1)
-        min = 10
-        max = 1000
-        if a > max:
-            return np.random.choice(self.size, max, replace=False)
-        elif a < min:
-            return np.random.choice(self.size, min, replace=False)
-        else:
-            return np.random.choice(self.size, a, replace=False)
 
 if len(sys.argv)<2:
     print("need input file")
     sys.exit(1)
 
-
 if sys.argv[1] == 'all':
-  # Get the list of all files and directories
   path = "data"
-  dir_list = os.listdir(path)
+  directoryList = os.listdir(path)
   
-  for file in dir_list:
+  for file in directoryList:
       t = NearestNeighbor(file)
       t.run()	
 else:
