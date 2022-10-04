@@ -5,7 +5,6 @@ import sys
 from utils import Utils
 import numpy as np
 import os
-import csv
 
 class NearestNeighbor():
     def __init__(self, file):
@@ -25,20 +24,8 @@ class NearestNeighbor():
         print("Time to run instances (milisec): ", round((time.time() * 1000) - execStartTime))
         print("Total Time (milisec): ", round(self.readTime + (time.time() * 1000 - execStartTime)))
 
-        with open('results/nearestNeighbor_' + self.instance.name + '.csv', 'a', encoding='UTF8', newline='') as f:
-          writer = csv.writer(f)
-          writer.writerow([distance, round(self.readTime), round((time.time() * 1000) - execStartTime), round(self.readTime + (time.time() * 1000 - execStartTime))]) 
-
     def getStartPoints(self):
-        a = round(self.size*0.1)
-        min = 10
-        max = 1000
-        if a > max:
-            return np.random.choice(self.size, max, replace=False)
-        elif a < min:
-            return np.random.choice(self.size, min, replace=False)
-        else:
-            return np.random.choice(self.size, a, replace=False)
+        return np.random.choice(self.size, 15, replace=False)
 
     def getDistances(self):
         distances = self.pointsDistances.copy()
@@ -49,6 +36,10 @@ class NearestNeighbor():
     def getBestTourResult(self, tours, distancesByTour):
         minDistanceIndex = np.argmin(distancesByTour)
         self.showExecResults(distancesByTour[minDistanceIndex], tours[minDistanceIndex])
+
+    def showToursData(self, executionTimeByTour, distancesByTour):
+        print("Mean distances from tours: ", sum(distancesByTour) / len(distancesByTour))
+        print("Mean Time (milisec): ", sum(executionTimeByTour) / len(executionTimeByTour))
 
     def getDistanceFromTour(self, tour):
         distance = 0
@@ -73,13 +64,17 @@ class NearestNeighbor():
     def run(self):
         distancesByTour = []
         tours = []
+        executionTimeByTour = []
         startPoints = self.getStartPoints()
         for point in startPoints:
+            execStartTourTime = time.time() * 1000
             tour = self.nearestNeighborAlgorithm(point)
             distance = self.getDistanceFromTour(tour)
             tours.append(tour)
             distancesByTour.append(distance)
+            executionTimeByTour.append(time.time() * 1000 - execStartTourTime)
         self.getBestTourResult(tours, distancesByTour) 
+        self.showToursData(executionTimeByTour, distancesByTour) 
 
 if len(sys.argv)<2:
     print("need input file")

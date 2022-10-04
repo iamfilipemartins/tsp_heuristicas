@@ -5,7 +5,6 @@ import sys
 from utils import Utils
 import numpy as np
 import os
-import csv
 
 class TwoOpt:
     def __init__(self, file):
@@ -25,10 +24,6 @@ class TwoOpt:
         print("Time to read instance (milisec): ", round(self.readTime))
         print("Time to run instances (milisec): ", round((time.time() * 1000) - execStartTime))
         print("Total Time (milisec): ", round(self.readTime + (time.time() * 1000 - execStartTime)))
-
-        with open('results/twoOpt_' + self.instance.name + '.csv', 'a', encoding='UTF8', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow([distance, round(self.readTime), round((time.time() * 1000) - execStartTime), round(self.readTime + (time.time() * 1000 - execStartTime))]) 
 
     def getInitialRandomTour(self):
         items = np.arange(1,self.size+1)
@@ -51,6 +46,10 @@ class TwoOpt:
     def getBestTourResult(self, tours, distancesByTour):
         minDistanceIndex = np.argmin(distancesByTour)
         self.showExecResults(distancesByTour[minDistanceIndex], tours[minDistanceIndex])
+
+    def showToursData(self, executionTimeByTour, distancesByTour):
+        print("Mean distances from tours: ", sum(distancesByTour) / len(distancesByTour))
+        print("Mean Time (milisec): ", sum(executionTimeByTour) / len(executionTimeByTour))
 
     def TwoOptAlgorithm(self, initialTour):
         minimumChange = -1
@@ -76,13 +75,17 @@ class TwoOpt:
     def run(self):
         tours = []
         distancesByTour = []
-        for _ in range(5):
+        executionTimeByTour = []
+        for _ in range(15):
+            execStartTourTime = time.time() * 1000
             initialTour = self.getInitialRandomTour()
             tour = self.TwoOptAlgorithm(initialTour)
             distance = self.getDistanceFromTour(tour)
             tours.append(tour)
             distancesByTour.append(distance)
+            executionTimeByTour.append(time.time() * 1000 - execStartTourTime)
         self.getBestTourResult(tours, distancesByTour)
+        self.showToursData(executionTimeByTour, distancesByTour) 
 
 if sys.argv[1] == 'all':
   path = "data"
