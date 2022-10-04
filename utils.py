@@ -23,17 +23,18 @@ class Utils():
                 elements = line.strip().split(' ')
                 while('' in elements):
                     elements.remove('')
-                try:
-                    cities.append([float(elements[0]), float(elements[1]), float(elements[2])])
-                except ValueError:
-                    if elements[0] == "DIMENSION:":
-                        size = int(elements[1])
-                    elif elements[0] == "DIMENSION":
-                        size = int(elements[2])
-                    elif elements[0] == "EDGE_WEIGHT_TYPE:":
-                        edgeWeightType = elements[1].strip()
-                    elif elements[0] == "EDGE_WEIGHT_TYPE":
-                        edgeWeightType = elements[2].strip()
+                if(len(elements) > 0):
+                  try:
+                      cities.append([float(elements[0]), float(elements[1]), float(elements[2])])
+                  except ValueError:
+                      if elements[0] == "DIMENSION:":
+                          size = int(elements[1])
+                      elif elements[0] == "DIMENSION":
+                          size = int(elements[2])
+                      elif elements[0] == "EDGE_WEIGHT_TYPE:":
+                          edgeWeightType = elements[1].strip()
+                      elif elements[0] == "EDGE_WEIGHT_TYPE":
+                          edgeWeightType = elements[2].strip()
           return dict(cities=np.array(cities), edgeWeightType=edgeWeightType, size=size)
         except IOError:
             print("Input file not found")

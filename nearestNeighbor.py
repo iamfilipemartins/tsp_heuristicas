@@ -38,6 +38,9 @@ class NearestNeighbor():
         self.showExecResults(distancesByTour[minDistanceIndex], tours[minDistanceIndex])
 
     def showToursData(self, executionTimeByTour, distancesByTour):
+        print("\n")
+        print('Algorithm: Nearest Neighbor')
+        print('File name: ', self.file)
         print("Mean distances from tours: ", sum(distancesByTour) / len(distancesByTour))
         print("Mean Time (milisec): ", sum(executionTimeByTour) / len(executionTimeByTour))
 
