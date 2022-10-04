@@ -20,7 +20,9 @@ class Utils():
           size = 0
           with open(f'data/{self.name}.tsp') as data:
             for line in data.readlines():
-                elements = line.split(' ')
+                elements = line.strip().split(' ')
+                while('' in elements):
+                    elements.remove('')
                 try:
                     cities.append([float(elements[0]), float(elements[1]), float(elements[2])])
                 except ValueError:
@@ -60,6 +62,6 @@ class Utils():
         for i in range(self.data['size']):
             row = []
             for j in range(self.data['size']):
-                row.append(np.round(sqrt(((self.data['cities'][i][1] - self.data['cities'][j][1]) ** 2 + (self.data['cities'][i][2] - self.data['cities'][j][2]) ** 2) / 10.0)))
+                row.append(np.ceil(sqrt(((self.data['cities'][i][1] - self.data['cities'][j][1]) ** 2 + (self.data['cities'][i][2] - self.data['cities'][j][2]) ** 2) / 10.0)))
             costMatrix.append(row)
         return np.asarray(costMatrix, dtype=np.float32)

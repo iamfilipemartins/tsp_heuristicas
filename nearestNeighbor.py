@@ -5,6 +5,7 @@ import sys
 from utils import Utils
 import numpy as np
 import os
+import csv
 
 class NearestNeighbor():
     def __init__(self, file):
@@ -13,14 +14,7 @@ class NearestNeighbor():
         self.size = self.instance.data['size']
         self.pointsDistances = self.instance.getPointsDistances()
         self.readTime = self.instance.readTime
-    
-    def showExecInfo(self):
-        print("\n")
-        print("Instance name: ", self.instance.name)
-        print("Dimension: ", self.size)
-        print("Distance Type: ", self.instance.data['edgeWeightType'])
-        print("Running nn tour over 10 random initial points")
-
+  
     def showExecResults(self, distance, bestTour):
         print("\n")
         print("Tour Distance: ", distance)
@@ -28,8 +22,12 @@ class NearestNeighbor():
         print("Best Tour by nn is: ", bestTour)
         print("\n")
         print("Time to read instance (milisec): ", round(self.readTime))
-        print("Time to run instances(milisec): ", round((time.time() * 1000) - execStartTime))
+        print("Time to run instances (milisec): ", round((time.time() * 1000) - execStartTime))
         print("Total Time (milisec): ", round(self.readTime + (time.time() * 1000 - execStartTime)))
+
+        with open('results/nearestNeighbor_' + self.instance.name + '.csv', 'a', encoding='UTF8', newline='') as f:
+          writer = csv.writer(f)
+          writer.writerow([distance, round(self.readTime), round((time.time() * 1000) - execStartTime), round(self.readTime + (time.time() * 1000 - execStartTime))]) 
 
     def getStartPoints(self):
         a = round(self.size*0.1)
@@ -75,7 +73,6 @@ class NearestNeighbor():
     def run(self):
         distancesByTour = []
         tours = []
-        self.showExecInfo()
         startPoints = self.getStartPoints()
         for point in startPoints:
             tour = self.nearestNeighborAlgorithm(point)

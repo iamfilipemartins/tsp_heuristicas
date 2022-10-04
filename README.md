@@ -10,10 +10,13 @@ Steps for running algorithms
 ### Terminal commands
 	$ python 'algorithm.py' 'filename'  
 
-* 'algorithm.py': choose the algorithm to run eg. nearestNeighbor.py
+* 'algorithm.py': choose the algorithm to run eg. nearestNeighbor.py or twoOpt.py
 * 'filename': choose any file from data folder eg. 'kroB100.tsp' or 'att48.tsp' or 'all' to run all data folder files
 
 ### Example runs			
 	$ python nearestNeighbor.py kroB100.tsp
 	$ python nearestNeighbor.py att48.tsp
 	$ python nearestNeighbor.py all
+  $ python twoOpt.py kroB100.tsp
+	$ python twoOpt.py att48.tsp
+	$ python twoOpt.py all

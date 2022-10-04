@@ -5,6 +5,7 @@ import sys
 from utils import Utils
 import numpy as np
 import os
+import csv
 
 class TwoOpt:
     def __init__(self, file):
@@ -15,20 +16,19 @@ class TwoOpt:
         self.readTime = self.instance.readTime
         self.algorithmTime = 0
 
-    def showExecInfo(self):
-        print("\n")
-        print("Instance name:", self.instance.name)
-        print("Dimension:", self.size)
-        print("Distance Type: ", self.instance.data['edgeWeightType'])
-
     def showExecResults(self, distance, bestTour):
         print("\n")
         print("Tour Distance: ", distance)
+        print("Points in Tour: ", len(bestTour))
         print("Best Tour by 2-opt is: ", bestTour)
         print("\n")
         print("Time to read instance (milisec): ", round(self.readTime))
-        print("Time to run instances(milisec): ", round((time.time() * 1000) - execStartTime))
+        print("Time to run instances (milisec): ", round((time.time() * 1000) - execStartTime))
         print("Total Time (milisec): ", round(self.readTime + (time.time() * 1000 - execStartTime)))
+
+        with open('results/twoOpt_' + self.instance.name + '.csv', 'a', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([distance, round(self.readTime), round((time.time() * 1000) - execStartTime), round(self.readTime + (time.time() * 1000 - execStartTime))]) 
 
     def getInitialRandomTour(self):
         items = np.arange(1,self.size+1)
@@ -76,7 +76,6 @@ class TwoOpt:
     def run(self):
         tours = []
         distancesByTour = []
-        self.showExecInfo()
         for _ in range(5):
             initialTour = self.getInitialRandomTour()
             tour = self.TwoOptAlgorithm(initialTour)
